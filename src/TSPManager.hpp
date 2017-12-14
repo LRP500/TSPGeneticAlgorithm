@@ -23,7 +23,7 @@ namespace TSP
         Random = 0,
         Greedy
     };
-    auto const FEED_MODE = FeedMode::Greedy;
+    auto const FEED_MODE = FeedMode::Random;
 
     class TSPManager {
     private:
@@ -31,7 +31,7 @@ namespace TSP
         TSP::Tour* m_greedy;
 
         static constexpr double mutationRate = 0.005; // default = 0.015
-        static const int tournamentSize = 5; // default = 5
+        static const int tournamentSize = 3; // default = 5
         static const bool elitism = true;
 
     public:

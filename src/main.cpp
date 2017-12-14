@@ -11,7 +11,7 @@
 #define _fileno fileno
 
 static const std::function<void(const size_t&)> progress_printer(
-        _isatty(_fileno(stdout)) == 1 ? [](const size_t& i) { std::cout << "\rProgress ... " << i << "s" << std::flush; }
+        _isatty(_fileno(stdout)) == 1 ? [](const size_t& i) { std::cout << "\rProgress ... " << i << "%" << std::flush; }
                                       : [](const size_t& i)
         {
             static std::ios::off_type last(-1);
@@ -22,39 +22,20 @@ static const std::function<void(const size_t&)> progress_printer(
         }
 );
 
-static void writeToFile(TSP::Tour* result, const std::string& filePath)
-{
-    std::ofstream file;
-    try
-    {
-        file.open(filePath);
-    }
-    catch (const std::ofstream::failure& e)
-    {
-        std::cout << e.what() << std::endl;
-        return ;
-    }
-
-    file << "1\n";
-    for (int i = 1; i < result->size(); ++i)
-    {
-        file << result->getDestinations()[i - 1]->distanceTo(result->getDestinations()[i]) << std::endl;
-    }
-    file << "1\n";
-    file.close();
-}
-
 static int usage()
 {
     std::cout << "USAGE: ./TSPGeneticAlgorithm FILEPATH" << std::endl;
     return EXIT_FAILURE;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    if (argc < 1)
+        return usage();
+
     TSP::TSPManager manager;
 
-    if (manager.feed("../tsp_exp.txt"))
+    if (manager.feed(argv[1]))
         return EXIT_FAILURE;
 
     auto pop = new TSP::Population(10, true, &manager);
@@ -64,13 +45,12 @@ int main()
 
     System::Timer timer;
 
-    int generations = 1;
+    int generations = 1000;
     pop = manager.evolvePopulation(pop);
-    for (int i = 0; timer.elapsed() < 29.0; i++)
+    for (int i = 0; i < generations; i++)
     {
         pop = manager.evolvePopulation(pop);
-        progress_printer(static_cast<const size_t &>(timer.elapsed()));
-        ++generations;
+        progress_printer(static_cast<const size_t &>((float)(i) / (float)generations * 100));
     }
     std::cout << std::endl;
 
@@ -81,8 +61,6 @@ int main()
     auto percentage = static_cast<float>(decreased / (float)(initial) * 100.0);
     std::cout << "Distance decreased by " << percentage << "% over " << generations << " generations" << std::endl;
     std::cout << "Time elapsed " << timer.elapsed() << std::endl;
-
-    writeToFile(pop->getFittest(), "../output");
 
     return EXIT_SUCCESS;
 }
