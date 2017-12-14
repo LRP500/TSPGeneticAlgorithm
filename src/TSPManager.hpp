@@ -31,7 +31,7 @@ namespace TSP
         TSP::Tour* m_greedy;
 
         static constexpr double mutationRate = 0.005; // default = 0.015
-        static const int tournamentSize = 3; // default = 5
+        static const int tournamentSize = 4; // default = 5
         static const bool elitism = true;
 
     public:

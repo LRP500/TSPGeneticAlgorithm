@@ -1,2 +1,4 @@
 # TSPGeneticAlgorithm
-Genetic algorithm solving a Travel Salesman Problem
+Genetic algorithm applied to Travel Salesman Problem
+
+
