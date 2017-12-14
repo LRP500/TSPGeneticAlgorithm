@@ -1,3 +1,0 @@
-/Users/LRP/ClionProjects/TSPGeneticAlgorithm/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/Users/LRP/ClionProjects/TSPGeneticAlgorithm/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/LRP/ClionProjects/TSPGeneticAlgorithm/cmake-build-debug/CMakeFiles/TSPGeneticAlgorithm.dir
